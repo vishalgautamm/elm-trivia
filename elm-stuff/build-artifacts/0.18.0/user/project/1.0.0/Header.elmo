@@ -1,0 +1,12 @@
+var _user$project$Header$viewHeader = A2(
+	_elm_lang$html$Html$h1,
+	{
+		ctor: '::',
+		_0: _elm_lang$html$Html_Attributes$class('Header'),
+		_1: {ctor: '[]'}
+	},
+	{
+		ctor: '::',
+		_0: _elm_lang$html$Html$text('Elm Quiz'),
+		_1: {ctor: '[]'}
+	});

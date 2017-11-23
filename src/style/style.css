@@ -1,0 +1,33 @@
+@import url('https://fonts.googleapis.com/css?family=Cormorant+Garamond');
+* {
+
+    font-family: 'Cormorant Garamond', serif;
+}
+
+body {
+    color: #2c3e50;
+    background: #ecf0f1;
+    margin: 1rem;
+    padding: 1rem;
+}
+
+.App {
+    margin: 2rem;
+}
+
+.Header {
+    margin-bottom: 2rem;
+    padding-bottom: 0.5rem;
+    text-align: center;
+    border-bottom: 5px solid rgb(221, 221, 221);
+}
+
+.Body .question {
+    line-height: 1.45;
+    margin-top: 1rem;
+    list-style: none;
+}
+
+.btn-answers:last-child {
+    margin-left: 1.5rem;
+}

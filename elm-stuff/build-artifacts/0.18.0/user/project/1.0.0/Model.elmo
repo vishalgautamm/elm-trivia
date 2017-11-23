@@ -1,0 +1,23 @@
+var _user$project$Model$Model = F3(
+	function (a, b, c) {
+		return {amount: a, difficulty: b, questions: c};
+	});
+var _user$project$Model$initModel = A3(
+	_user$project$Model$Model,
+	5,
+	_user$project$Data_Difficulty$default,
+	_elm_lang$core$Array$fromList(
+		{
+			ctor: '::',
+			_0: A4(
+				_user$project$Data_Question$Question,
+				_elm_lang$core$Maybe$Nothing,
+				'A catepillar has more muscles than humans do',
+				'True',
+				{
+					ctor: '::',
+					_0: 'False',
+					_1: {ctor: '[]'}
+				}),
+			_1: {ctor: '[]'}
+		}));

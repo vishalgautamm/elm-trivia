@@ -1,0 +1,283 @@
+var _user$project$Main$output = _elm_lang$core$Native_Platform.outgoingPort(
+	'output',
+	function (v) {
+		return {score: v.score, total: v.total, percent: v.percent};
+	});
+var _user$project$Main$incoming = _elm_lang$core$Native_Platform.incomingPort(
+	'incoming',
+	_elm_lang$core$Json_Decode$list(
+		A2(
+			_elm_lang$core$Json_Decode$andThen,
+			function (score) {
+				return A2(
+					_elm_lang$core$Json_Decode$andThen,
+					function (total) {
+						return A2(
+							_elm_lang$core$Json_Decode$andThen,
+							function (percent) {
+								return _elm_lang$core$Json_Decode$succeed(
+									{score: score, total: total, percent: percent});
+							},
+							A2(_elm_lang$core$Json_Decode$field, 'percent', _elm_lang$core$Json_Decode$float));
+					},
+					A2(_elm_lang$core$Json_Decode$field, 'total', _elm_lang$core$Json_Decode$int));
+			},
+			A2(_elm_lang$core$Json_Decode$field, 'score', _elm_lang$core$Json_Decode$int))));
+var _user$project$Main$GameResults = F3(
+	function (a, b, c) {
+		return {score: a, total: b, percent: c};
+	});
+var _user$project$Main$Model = F4(
+	function (a, b, c, d) {
+		return {amount: a, limit: b, difficulty: c, questions: d};
+	});
+var _user$project$Main$initModel = A4(_user$project$Main$Model, 5, 50, _user$project$Data_Difficulty$default, _elm_lang$core$Array$empty);
+var _user$project$Main$SavedGameResults = function (a) {
+	return {ctor: 'SavedGameResults', _0: a};
+};
+var _user$project$Main$subscriptions = function (model) {
+	return _user$project$Main$incoming(_user$project$Main$SavedGameResults);
+};
+var _user$project$Main$SubmitAnswers = {ctor: 'SubmitAnswers'};
+var _user$project$Main$GetQuestions = function (a) {
+	return {ctor: 'GetQuestions', _0: a};
+};
+var _user$project$Main$getTrivia = function (model) {
+	var flag = _user$project$Data_Difficulty$isAny(model.difficulty);
+	var difficultyValue = _elm_lang$core$String$toLower(
+		_user$project$Data_Difficulty$toString(model.difficulty));
+	return A2(
+		_elm_lang$http$Http$send,
+		_user$project$Main$GetQuestions,
+		A2(
+			_elm_lang$http$Http$get,
+			_user$project$Request_TriviaQuestions$apiUrl(
+				_user$project$Request_Helpers$queryString(
+					A3(
+						_user$project$Util$appendIf,
+						!flag,
+						A2(_user$project$Util_ops['=>'], 'difficulty', difficultyValue),
+						{
+							ctor: '::',
+							_0: A2(
+								_user$project$Util_ops['=>'],
+								'amount',
+								_elm_lang$core$Basics$toString(model.amount)),
+							_1: {ctor: '[]'}
+						}))),
+			_user$project$Request_TriviaQuestions$triviaDecoder));
+};
+var _user$project$Main$init = {
+	ctor: '_Tuple2',
+	_0: _user$project$Main$initModel,
+	_1: _user$project$Main$getTrivia(_user$project$Main$initModel)
+};
+var _user$project$Main$update = F2(
+	function (msg, model) {
+		var _p0 = msg;
+		switch (_p0.ctor) {
+			case 'Answer':
+				var _p1 = _p0._0;
+				return {
+					ctor: '_Tuple2',
+					_0: A2(
+						_elm_lang$core$Maybe$withDefault,
+						model,
+						A2(
+							_elm_lang$core$Maybe$map,
+							function (arr) {
+								return _elm_lang$core$Native_Utils.update(
+									model,
+									{questions: arr});
+							},
+							A2(
+								_elm_lang$core$Maybe$map,
+								function (q) {
+									return A3(_elm_lang$core$Array$set, _p1, q, model.questions);
+								},
+								A2(
+									_elm_lang$core$Maybe$map,
+									function (q) {
+										return _elm_lang$core$Native_Utils.update(
+											q,
+											{
+												userAnswer: _elm_lang$core$Maybe$Just(_p0._1)
+											});
+									},
+									A2(_elm_lang$core$Array$get, _p1, model.questions))))),
+					_1: _elm_lang$core$Platform_Cmd$none
+				};
+			case 'UpdateAmount':
+				var _p2 = _elm_lang$core$String$toInt(_p0._0);
+				if (_p2.ctor === 'Ok') {
+					var _p3 = _p2._0;
+					return (_elm_lang$core$Native_Utils.cmp(_p3, model.limit) > 0) ? A2(
+						_elm_lang$core$Platform_Cmd_ops['!'],
+						_elm_lang$core$Native_Utils.update(
+							model,
+							{amount: model.limit}),
+						{ctor: '[]'}) : A2(
+						_elm_lang$core$Platform_Cmd_ops['!'],
+						_elm_lang$core$Native_Utils.update(
+							model,
+							{amount: _p3}),
+						{ctor: '[]'});
+				} else {
+					return A2(
+						_elm_lang$core$Platform_Cmd_ops['!'],
+						model,
+						{ctor: '[]'});
+				}
+			case 'ChangeDifficulty':
+				return A2(
+					_elm_lang$core$Platform_Cmd_ops['!'],
+					_elm_lang$core$Native_Utils.update(
+						model,
+						{difficulty: _p0._0}),
+					{ctor: '[]'});
+			case 'Start':
+				return {
+					ctor: '_Tuple2',
+					_0: model,
+					_1: _user$project$Main$getTrivia(model)
+				};
+			case 'GetQuestions':
+				var _p4 = _p0._0;
+				if (_p4.ctor === 'Ok') {
+					return {
+						ctor: '_Tuple2',
+						_0: _elm_lang$core$Native_Utils.update(
+							model,
+							{
+								questions: _elm_lang$core$Array$fromList(_p4._0.questions)
+							}),
+						_1: _elm_lang$core$Platform_Cmd$none
+					};
+				} else {
+					return A2(
+						_elm_lang$core$Platform_Cmd_ops['!'],
+						model,
+						{ctor: '[]'});
+				}
+			case 'SubmitAnswers':
+				var score = A3(
+					_elm_lang$core$Array$foldl,
+					F2(
+						function (_p5, acc) {
+							var _p6 = _p5;
+							var _p7 = _p6.userAnswer;
+							if (_p7.ctor === 'Just') {
+								return _elm_lang$core$Native_Utils.eq(_p7._0, _p6.correct) ? (acc + 1) : acc;
+							} else {
+								return acc;
+							}
+						}),
+					0,
+					model.questions);
+				var length = _elm_lang$core$Array$length(model.questions);
+				var percentage = (_elm_lang$core$Basics$toFloat(score) / _elm_lang$core$Basics$toFloat(length)) * 100;
+				var res = A3(_user$project$Main$GameResults, score, length, percentage);
+				return {
+					ctor: '_Tuple2',
+					_0: model,
+					_1: _user$project$Main$output(res)
+				};
+			default:
+				return A2(
+					_elm_lang$core$Platform_Cmd_ops['!'],
+					model,
+					{ctor: '[]'});
+		}
+	});
+var _user$project$Main$Start = {ctor: 'Start'};
+var _user$project$Main$ChangeDifficulty = function (a) {
+	return {ctor: 'ChangeDifficulty', _0: a};
+};
+var _user$project$Main$UpdateAmount = function (a) {
+	return {ctor: 'UpdateAmount', _0: a};
+};
+var _user$project$Main$Answer = F2(
+	function (a, b) {
+		return {ctor: 'Answer', _0: a, _1: b};
+	});
+var _user$project$Main$view = function (_p8) {
+	var _p9 = _p8;
+	return A2(
+		_elm_lang$html$Html$div,
+		{ctor: '[]'},
+		{
+			ctor: '::',
+			_0: _user$project$View_Header$viewHeader,
+			_1: {
+				ctor: '::',
+				_0: A2(
+					_elm_lang$html$Html$input,
+					{
+						ctor: '::',
+						_0: _user$project$Util$onChange(_user$project$Main$UpdateAmount),
+						_1: {
+							ctor: '::',
+							_0: _elm_lang$html$Html_Attributes$value(
+								_elm_lang$core$Basics$toString(_p9.amount)),
+							_1: {ctor: '[]'}
+						}
+					},
+					{ctor: '[]'}),
+				_1: {
+					ctor: '::',
+					_0: A2(
+						_elm_lang$html$Html$select,
+						{
+							ctor: '::',
+							_0: _user$project$Util$onChange(
+								function (_p10) {
+									return _user$project$Main$ChangeDifficulty(
+										_user$project$Data_Difficulty$get(_p10));
+								}),
+							_1: {ctor: '[]'}
+						},
+						A2(
+							_elm_lang$core$List$map,
+							function (key) {
+								return A2(
+									_elm_lang$html$Html$option,
+									{ctor: '[]'},
+									{
+										ctor: '::',
+										_0: _elm_lang$html$Html$text(key),
+										_1: {ctor: '[]'}
+									});
+							},
+							_user$project$Data_Difficulty$keys)),
+					_1: {
+						ctor: '::',
+						_0: A2(_user$project$View_Button$btn, _user$project$Main$Start, 'Start'),
+						_1: {
+							ctor: '::',
+							_0: A2(
+								_elm_lang$html$Html$div,
+								{ctor: '[]'},
+								_elm_lang$core$Array$toList(
+									A2(
+										_elm_lang$core$Array$indexedMap,
+										F2(
+											function (i, q) {
+												return A2(
+													_user$project$View_Question$view,
+													_user$project$Main$Answer(i),
+													q);
+											}),
+										_p9.questions))),
+							_1: {
+								ctor: '::',
+								_0: A2(_user$project$View_Button$btn, _user$project$Main$SubmitAnswers, 'Submit'),
+								_1: {ctor: '[]'}
+							}
+						}
+					}
+				}
+			}
+		});
+};
+var _user$project$Main$main = _elm_lang$html$Html$program(
+	{init: _user$project$Main$init, update: _user$project$Main$update, view: _user$project$Main$view, subscriptions: _user$project$Main$subscriptions})();

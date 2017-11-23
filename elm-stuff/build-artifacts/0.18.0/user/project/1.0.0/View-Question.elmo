@@ -1,0 +1,39 @@
+var _user$project$View_Question$view = F2(
+	function (msg, _p0) {
+		var _p1 = _p0;
+		var answers = _elm_lang$core$List$sort(
+			{ctor: '::', _0: _p1.correct, _1: _p1.incorrect});
+		return A2(
+			_elm_lang$html$Html$div,
+			{
+				ctor: '::',
+				_0: _elm_lang$html$Html_Attributes$class('question'),
+				_1: {ctor: '[]'}
+			},
+			{
+				ctor: '::',
+				_0: _user$project$View_Form$group(
+					{
+						ctor: '::',
+						_0: _elm_lang$html$Html$text(_p1.question),
+						_1: {ctor: '[]'}
+					}),
+				_1: {
+					ctor: '::',
+					_0: _user$project$View_Form$group(
+						A2(
+							_elm_lang$core$List$intersperse,
+							_elm_lang$html$Html$text(' '),
+							A2(
+								_elm_lang$core$List$map,
+								function (a) {
+									return A2(
+										_user$project$View_Button$btn,
+										msg(a),
+										a);
+								},
+								answers))),
+					_1: {ctor: '[]'}
+				}
+			});
+	});
