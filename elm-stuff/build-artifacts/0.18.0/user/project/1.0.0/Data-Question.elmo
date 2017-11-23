@@ -1,0 +1,13 @@
+var _user$project$Data_Question$Question = F4(
+	function (a, b, c, d) {
+		return {userAnswer: a, question: b, correct: c, incorrect: d};
+	});
+var _user$project$Data_Question$questionDecoder = A4(
+	_elm_lang$core$Json_Decode$map3,
+	_user$project$Data_Question$Question(_elm_lang$core$Maybe$Nothing),
+	A2(_elm_lang$core$Json_Decode$field, 'question', _elm_lang$core$Json_Decode$string),
+	A2(_elm_lang$core$Json_Decode$field, 'correct_answer', _elm_lang$core$Json_Decode$string),
+	A2(
+		_elm_lang$core$Json_Decode$field,
+		'incorrect_answers',
+		_elm_lang$core$Json_Decode$list(_elm_lang$core$Json_Decode$string)));

@@ -1,0 +1,13 @@
+{
+  "name": "project",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "scripts": {
+    "start": "webpack"
+  },
+  "dependencies": {
+    "elm-webpack-loader": "^4.4.0",
+    "webpack": "^3.8.1"
+  }
+}

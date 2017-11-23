@@ -1,0 +1,15 @@
+var _user$project$Request_TriviaQuestions$apiUrl = function (str) {
+	return A2(_elm_lang$core$Basics_ops['++'], 'https://opentdb.com/api.php', str);
+};
+var _user$project$Request_TriviaQuestions$TriviaResults = F2(
+	function (a, b) {
+		return {code: a, questions: b};
+	});
+var _user$project$Request_TriviaQuestions$triviaDecoder = A3(
+	_elm_lang$core$Json_Decode$map2,
+	_user$project$Request_TriviaQuestions$TriviaResults,
+	A2(_elm_lang$core$Json_Decode$field, 'response_code', _elm_lang$core$Json_Decode$int),
+	A2(
+		_elm_lang$core$Json_Decode$field,
+		'results',
+		_elm_lang$core$Json_Decode$list(_user$project$Data_Question$questionDecoder)));

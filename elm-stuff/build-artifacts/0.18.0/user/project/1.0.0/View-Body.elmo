@@ -1,0 +1,15 @@
+var _user$project$View_Body$viewBody = function (model) {
+	return A2(
+		_elm_lang$html$Html$div,
+		{
+			ctor: '::',
+			_0: _elm_lang$html$Html_Attributes$class('Body'),
+			_1: {ctor: '[]'}
+		},
+		{
+			ctor: '::',
+			_0: _elm_lang$html$Html$text(
+				_elm_lang$core$Basics$toString(model)),
+			_1: {ctor: '[]'}
+		});
+};

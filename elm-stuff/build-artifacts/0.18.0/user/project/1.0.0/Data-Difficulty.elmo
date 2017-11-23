@@ -1,0 +1,59 @@
+var _user$project$Data_Difficulty$Hard = {ctor: 'Hard'};
+var _user$project$Data_Difficulty$Medium = {ctor: 'Medium'};
+var _user$project$Data_Difficulty$Easy = {ctor: 'Easy'};
+var _user$project$Data_Difficulty$Any = {ctor: 'Any'};
+var _user$project$Data_Difficulty$default = _user$project$Data_Difficulty$Any;
+var _user$project$Data_Difficulty$list = {
+	ctor: '::',
+	_0: A2(_user$project$Util_ops['=>'], 'Any', _user$project$Data_Difficulty$Any),
+	_1: {
+		ctor: '::',
+		_0: A2(_user$project$Util_ops['=>'], 'Easy', _user$project$Data_Difficulty$Easy),
+		_1: {
+			ctor: '::',
+			_0: A2(_user$project$Util_ops['=>'], 'Medium', _user$project$Data_Difficulty$Medium),
+			_1: {
+				ctor: '::',
+				_0: A2(_user$project$Util_ops['=>'], 'Hard', _user$project$Data_Difficulty$Hard),
+				_1: {ctor: '[]'}
+			}
+		}
+	}
+};
+var _user$project$Data_Difficulty$keys = _elm_lang$core$Tuple$first(
+	_elm_lang$core$List$unzip(_user$project$Data_Difficulty$list));
+var _user$project$Data_Difficulty$get = function (key) {
+	return A2(
+		_elm_lang$core$Maybe$withDefault,
+		_user$project$Data_Difficulty$default,
+		A2(
+			_elm_lang$core$Maybe$map,
+			_elm_lang$core$Tuple$second,
+			_elm_lang$core$List$head(
+				A2(
+					_elm_lang$core$List$filter,
+					function (_p0) {
+						var _p1 = _p0;
+						return _elm_lang$core$Native_Utils.eq(_p1._0, key);
+					},
+					_user$project$Data_Difficulty$list))));
+};
+var _user$project$Data_Difficulty$toString = function (lvl) {
+	return A2(
+		_elm_lang$core$Maybe$withDefault,
+		'Any',
+		A2(
+			_elm_lang$core$Maybe$map,
+			_elm_lang$core$Tuple$first,
+			_elm_lang$core$List$head(
+				A2(
+					_elm_lang$core$List$filter,
+					function (_p2) {
+						var _p3 = _p2;
+						return _elm_lang$core$Native_Utils.eq(_p3._1, lvl);
+					},
+					_user$project$Data_Difficulty$list))));
+};
+var _user$project$Data_Difficulty$isAny = function (lvl) {
+	return _elm_lang$core$Native_Utils.eq(lvl, _user$project$Data_Difficulty$Any);
+};
